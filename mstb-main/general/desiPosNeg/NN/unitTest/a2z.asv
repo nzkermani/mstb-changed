@@ -1,0 +1,23 @@
+% Dear James I wrote this code to test - stability (repeatability) of
+% making intervals
+% it has to main functions - the first one makeIntervals(path, file, ppm, mzRange)
+%                          - the second testCoverage( path, file, ppm,
+%                          intervalarray{i} ) 
+% make interval 
+
+javaclasspath('packages/imzMLConverter/imzMLConverter.jar')
+file = '0700018A4-.imzML';
+path = 'G:\OvarianLuisa\Raw1\';
+mzRange = [600 900];
+ppm = 2.5;
+interval = makeIntervals(path, file, ppm, mzRange);
+% test if the number of intervals is different among runs 
+numberOfRuns = 10;
+numbrOfIntervals = zeros(1,10);
+% this is trick that I read somewhere to initiate a cell array.
+intervalarray{numberOfRuns} = interval;
+for i = 1:numberOfRuns
+    intervalarray{i} = makeIntervals(path, file, ppm, mzRange);
+end
+
+[ mzInterval, spInterval ] = testCoverage( path, file, ppm, intervalarray{i} );
